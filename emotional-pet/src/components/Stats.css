@@ -1,0 +1,50 @@
+.stats {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  padding: 20px;
+  margin: 20px 0;
+  color: #333;
+}
+
+.stat {
+  margin-bottom: 15px;
+}
+
+.stat:last-child {
+  margin-bottom: 0;
+}
+
+.stat label {
+  display: block;
+  font-size: 0.8rem;
+  margin-bottom: 8px;
+  text-align: left;
+}
+
+.stat-bar {
+  background: #e0e0e0;
+  border-radius: 10px;
+  height: 20px;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+
+.stat-fill {
+  height: 100%;
+  transition: width 0.5s ease;
+  border-radius: 10px;
+}
+
+.stat-fill.health {
+  background: linear-gradient(90deg, #f44336, #ff6b6b);
+}
+
+.stat-fill.happiness {
+  background: linear-gradient(90deg, #ffd700, #ffed4e);
+}
+
+.stat span {
+  font-size: 0.7rem;
+  color: #666;
+  float: right;
+}

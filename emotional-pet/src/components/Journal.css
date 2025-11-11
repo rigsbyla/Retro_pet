@@ -1,0 +1,67 @@
+.journal {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  padding: 25px;
+  color: #333;
+}
+
+.journal h3 {
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+.journal textarea {
+  width: 100%;
+  padding: 15px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-family: 'Arial', sans-serif;
+  font-size: 1rem;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.journal textarea:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.journal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.journal-actions button {
+  flex: 1;
+  padding: 12px;
+  font-size: 0.8rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+
+.journal-actions button[type="submit"] {
+  background: #4CAF50;
+  color: white;
+}
+
+.journal-actions button[type="submit"]:hover:not(:disabled) {
+  background: #66BB6A;
+}
+
+.journal-actions button[type="submit"]:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.journal-actions button[type="button"] {
+  background: #f44336;
+  color: white;
+}
+
+.journal-actions button[type="button"]:hover {
+  background: #e57373;
+}

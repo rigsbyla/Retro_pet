@@ -1,0 +1,36 @@
+.pet {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  padding: 40px;
+  margin: 30px 0;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.pet-sprite {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  animation: bounce 2s infinite;
+}
+
+.pet-happy .pet-sprite {
+  animation: bounce 1s infinite;
+}
+
+.pet-sad .pet-sprite {
+  animation: none;
+  opacity: 0.7;
+}
+
+.pet-message {
+  font-size: 0.8rem;
+  color: #333;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
