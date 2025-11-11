@@ -21,10 +21,19 @@
 }
 
 .pet-sprite {
-  font-size: 4rem;
-  margin-bottom: 20px;
+  margin: 0 auto 20px;
   animation: bounce 2s infinite;
+  display: flex;
+  justify-content: center;
 }
+
+.pet-image {
+  display: block;
+  width: 100px;        /* or whatever size looks good */
+  height: auto;
+  image-rendering: pixelated; /* optional for crisp retro look */
+}
+
 
 .pet-happy .pet-sprite {
   animation: bounce 1s infinite;

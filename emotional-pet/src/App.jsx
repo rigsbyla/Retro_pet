@@ -9,6 +9,7 @@ import './App.css';
 function App() {
   const [petState, setPetState] = useState(loadPetState());
   const [showJournal, setShowJournal] = useState(false);
+  const [attackTrigger, setAttackTrigger] = useState(0);
 
   useEffect(() => {
     savePetState(petState);
@@ -22,6 +23,7 @@ function App() {
   }, []);
 
   const handleCheckIn = (mood) => {
+    setAttackTrigger(prev => prev + 1);
     setPetState(prev => {
       const category = getEmotionCategory(mood);
       const effects = emotionEffects[category];
@@ -39,6 +41,7 @@ function App() {
   };
 
   const handleJournalEntry = (entry) => {
+    setAttackTrigger(prev => prev + 1);
     setPetState(prev => ({
       ...prev,
       happiness: clampStat(prev.happiness + 25),
@@ -54,7 +57,7 @@ function App() {
   return (
     <div className="app">
       <h1>AuraPet 🌟</h1>
-      <Pet petState={petState} />
+      <Pet petState={petState} triggerAttack={attackTrigger} />
       <Stats petState={petState} />
       
       {!showJournal ? (

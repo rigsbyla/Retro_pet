@@ -1,6 +1,10 @@
+import { useState, useEffect } from 'react';
 import './Pet.css';
+import foxIdle from '../assets/Fox_Idle.gif';
+import foxAttackGif from '../assets/Fox_Attack.gif';
 
-function Pet({ petState }) {
+function Pet({ petState, triggerAttack }) {
+  const [isAttacking, setIsAttacking] = useState(false);
   const getPetMood = () => {
     // Priority order: sickness > health > hunger > happiness
     if (petState.sickness > 50) return 'sick';
@@ -35,10 +39,21 @@ function Pet({ petState }) {
     }
   };
 
+  useEffect(() => {
+    if (triggerAttack) {
+      setIsAttacking(true);
+      // Assuming the gif loops once in about 1 second, adjust timing as needed
+      const timer = setTimeout(() => {
+        setIsAttacking(false);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [triggerAttack]);
+
   return (
     <div className={`pet pet-${getPetMood()}`}>
       <div className="pet-sprite">
-        {getPetEmoji()}
+        <img src={isAttacking ? foxAttackGif : foxIdle} alt="Pet" className="pet-image" />
       </div>
       <div className="pet-message">
         {getPetMessage()}
