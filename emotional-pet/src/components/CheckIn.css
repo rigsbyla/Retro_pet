@@ -16,6 +16,28 @@
   gap: 15px;
 }
 
+/* Desktop spacing optimization */
+@media (min-width: 800px) {
+  .checkin {
+    padding: 30px 40px;
+  }
+  
+  .mood-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .checkin {
+    padding: 35px 50px;
+  }
+  
+  .mood-grid {
+    gap: 25px;
+  }
+}
+
 .mood-btn {
   background: white;
   border: 3px solid #ddd;

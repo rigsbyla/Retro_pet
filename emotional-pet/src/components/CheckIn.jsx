@@ -2,11 +2,13 @@ import './CheckIn.css';
 
 const moods = [
   { emoji: '😊', label: 'Happy', value: 'happy' },
+  { emoji: '🤩', label: 'Excited', value: 'excited' },
+  { emoji: '🙏', label: 'Grateful', value: 'grateful' },
   { emoji: '😌', label: 'Calm', value: 'calm' },
+  { emoji: '😐', label: 'Neutral', value: 'neutral' },
   { emoji: '😔', label: 'Sad', value: 'sad' },
   { emoji: '😰', label: 'Anxious', value: 'anxious' },
-  { emoji: '😤', label: 'Frustrated', value: 'frustrated' },
-  { emoji: '😴', label: 'Tired', value: 'tired' }
+  { emoji: '😠', label: 'Angry', value: 'angry' }
 ];
 
 function CheckIn({ onCheckIn }) {

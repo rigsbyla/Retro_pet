@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AuraPet Browser Tests</title>
+  <style>
+    body {
+      font-family: 'Courier New', monospace;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    h1 { color: #667eea; }
+    h2 { color: #764ba2; margin-top: 30px; }
+    .test-section {
+      background: white;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .test-result {
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 4px;
+    }
+    .pass {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    .fail {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    button {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 5px;
+      font-family: inherit;
+    }
+    button:hover {
+      background: #764ba2;
+    }
+    .info {
+      background: #d1ecf1;
+      color: #0c5460;
+      padding: 10px;
+      border-radius: 4px;
+      margin: 10px 0;
+    }
+    pre {
+      background: #f8f9fa;
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧪 AuraPet Browser Verification Tests</h1>
+  
+  <div class="info">
+    <strong>Note:</strong> These tests verify localStorage functionality and other browser-specific features.
+    Run the automated tests with <code>node test-verification.js</code> for core logic tests.
+  </div>
+
+  <div class="test-section">
+    <h2>📦 LocalStorage Tests</h2>
+    <button onclick="runLocalStorageTests()">Run LocalStorage Tests</button>
+    <div id="localStorage-results"></div>
+  </div>
+
+  <div class="test-section">
+    <h2>🔄 State Migration Test</h2>
+    <button onclick="runMigrationTest()">Test Migration from Old State</button>
+    <div id="migration-results"></div>
+  </div>
+
+  <div class="test-section">
+    <h2>📊 Current State Inspector</h2>
+    <button onclick="inspectCurrentState()">Inspect Current State</button>
+    <button onclick="clearState()">Clear State</button>
+    <div id="state-inspector"></div>
+  </div>
+
+  <div class="test-section">
+    <h2>🎨 Visual Verification Checklist</h2>
+    <div class="info">
+      Open the app at <a href="http://localhost:5173" target="_blank">http://localhost:5173</a> and verify:
+      <ul>
+        <li>✅ Title shows "AuraPet 🌟"</li>
+        <li>✅ Browser tab title is "AuraPet"</li>
+        <li>✅ Four stats display: Health, Happiness, Hunger, Sickness</li>
+        <li>✅ Stats show in 2x2 grid on desktop (resize window to 800px+)</li>
+        <li>✅ Stats stack vertically on mobile (resize window below 800px)</li>
+        <li>✅ Eight emotion buttons: happy, excited, grateful, calm, neutral, sad, anxious, angry</li>
+        <li>✅ Hunger stat has 🍽️ emoji</li>
+        <li>✅ Sickness stat has 🤒 emoji</li>
+        <li>✅ Pet shows different moods based on stats</li>
+        <li>✅ Layout is centered and uses horizontal space well</li>
+      </ul>
+    </div>
+  </div>
+
+  <script type="module">
+    // Import the petLogic functions
+    import { 
+      loadPetState, 
+      savePetState, 
+      clampStat,
+      getEmotionCategory,
+      emotionEffects
+    } from './src/utils/petLogic.js';
+
+    window.loadPetState = loadPetState;
+    window.savePetState = savePetState;
+    window.clampStat = clampStat;
+    window.getEmotionCategory = getEmotionCategory;
+    window.emotionEffects = emotionEffects;
+
+    window.runLocalStorageTests = function() {
+      const results = document.getElementById('localStorage-results');
+      results.innerHTML = '<h3>Running tests...</h3>';
+      
+      let html = '';
+      let passed = 0;
+      let failed = 0;
+
+      // Test 1: Save and load state
+      try {
+        const testState = {
+          health: 75,
+          happiness: 65,
+          hunger: 40,
+          sickness: 10,
+          lastCheckIn: Date.now(),
+          mood: 'happy'
+        };
+        
+        savePetState(testState);
+        const loaded = loadPetState();
+        
+        if (loaded.health === 75 && loaded.happiness === 65 && 
+            loaded.hunger === 40 && loaded.sickness === 10) {
+          html += '<div class="test-result pass">✅ PASS: Save and load state</div>';
+          passed++;
+        } else {
+          html += '<div class="test-result fail">❌ FAIL: Save and load state - values don\'t match</div>';
+          failed++;
+        }
+      } catch (error) {
+        html += `<div class="test-result fail">❌ FAIL: Save and load state - ${error.message}</div>`;
+        failed++;
+      }
+
+      // Test 2: Storage key is correct
+      try {
+        const stored = localStorage.getItem('aurapet-state');
+        if (stored !== null) {
+          html += '<div class="test-result pass">✅ PASS: Storage key is "aurapet-state"</div>';
+          passed++;
+        } else {
+          html += '<div class="test-result fail">❌ FAIL: Storage key not found</div>';
+          failed++;
+        }
+      } catch (error) {
+        html += `<div class="test-result fail">❌ FAIL: Storage key check - ${error.message}</div>`;
+        failed++;
+      }
+
+      // Test 3: Default state when no storage
+      try {
+        localStorage.removeItem('aurapet-state');
+        const defaultState = loadPetState();
+        
+        if (defaultState.health === 80 && defaultState.happiness === 80 &&
+            defaultState.hunger === 30 && defaultState.sickness === 0) {
+          html += '<div class="test-result pass">✅ PASS: Default state has correct values (health:80, happiness:80, hunger:30, sickness:0)</div>';
+          passed++;
+        } else {
+          html += `<div class="test-result fail">❌ FAIL: Default state incorrect - got health:${defaultState.health}, happiness:${defaultState.happiness}, hunger:${defaultState.hunger}, sickness:${defaultState.sickness}</div>`;
+          failed++;
+        }
+      } catch (error) {
+        html += `<div class="test-result fail">❌ FAIL: Default state check - ${error.message}</div>`;
+        failed++;
+      }
+
+      html += `<div class="info"><strong>Summary:</strong> ${passed} passed, ${failed} failed</div>`;
+      results.innerHTML = html;
+    };
+
+    window.runMigrationTest = function() {
+      const results = document.getElementById('migration-results');
+      results.innerHTML = '<h3>Running migration test...</h3>';
+      
+      let html = '';
+
+      try {
+        // Create old state format (without hunger and sickness)
+        const oldState = {
+          health: 70,
+          happiness: 60,
+          mood: 'neutral',
+          lastCheckIn: Date.now(),
+          journalEntries: [],
+          createdAt: Date.now()
+        };
+
+        html += '<h4>Old State (before migration):</h4>';
+        html += `<pre>${JSON.stringify(oldState, null, 2)}</pre>`;
+
+        // Save old state
+        localStorage.setItem('aurapet-state', JSON.stringify(oldState));
+
+        // Load state (should trigger migration)
+        const migratedState = loadPetState();
+
+        html += '<h4>Migrated State (after loading):</h4>';
+        html += `<pre>${JSON.stringify(migratedState, null, 2)}</pre>`;
+
+        // Verify migration
+        if (migratedState.hunger === 30 && migratedState.sickness === 0 &&
+            migratedState.health === 70 && migratedState.happiness === 60) {
+          html += '<div class="test-result pass">✅ PASS: Migration added hunger (30) and sickness (0) while preserving existing values</div>';
+        } else {
+          html += '<div class="test-result fail">❌ FAIL: Migration did not work correctly</div>';
+          html += `<div>Expected: hunger=30, sickness=0, health=70, happiness=60</div>`;
+          html += `<div>Got: hunger=${migratedState.hunger}, sickness=${migratedState.sickness}, health=${migratedState.health}, happiness=${migratedState.happiness}</div>`;
+        }
+      } catch (error) {
+        html += `<div class="test-result fail">❌ FAIL: Migration test error - ${error.message}</div>`;
+      }
+
+      results.innerHTML = html;
+    };
+
+    window.inspectCurrentState = function() {
+      const inspector = document.getElementById('state-inspector');
+      
+      try {
+        const state = loadPetState();
+        let html = '<h4>Current Pet State:</h4>';
+        html += `<pre>${JSON.stringify(state, null, 2)}</pre>`;
+        
+        html += '<h4>Stat Validation:</h4>';
+        const stats = ['health', 'happiness', 'hunger', 'sickness'];
+        stats.forEach(stat => {
+          const value = state[stat];
+          const valid = value >= 0 && value <= 100;
+          const className = valid ? 'pass' : 'fail';
+          const icon = valid ? '✅' : '❌';
+          html += `<div class="test-result ${className}">${icon} ${stat}: ${value} ${valid ? '(valid 0-100)' : '(INVALID - out of range!)'}</div>`;
+        });
+
+        inspector.innerHTML = html;
+      } catch (error) {
+        inspector.innerHTML = `<div class="test-result fail">❌ Error: ${error.message}</div>`;
+      }
+    };
+
+    window.clearState = function() {
+      localStorage.removeItem('aurapet-state');
+      document.getElementById('state-inspector').innerHTML = '<div class="info">State cleared! Reload the app to see default state.</div>';
+    };
+  </script>
+</body>
+</html>

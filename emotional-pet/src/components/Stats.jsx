@@ -23,6 +23,26 @@ function Stats({ petState }) {
         </div>
         <span>{petState.happiness}%</span>
       </div>
+      <div className="stat">
+        <label>🍽️ Hunger</label>
+        <div className="stat-bar">
+          <div 
+            className="stat-fill hunger" 
+            style={{ width: `${petState.hunger}%` }}
+          />
+        </div>
+        <span>{petState.hunger}%</span>
+      </div>
+      <div className="stat">
+        <label>🤒 Sickness</label>
+        <div className="stat-bar">
+          <div 
+            className="stat-fill sickness" 
+            style={{ width: `${petState.sickness}%` }}
+          />
+        </div>
+        <span>{petState.sickness}%</span>
+      </div>
     </div>
   );
 }

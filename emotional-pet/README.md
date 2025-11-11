@@ -1,15 +1,16 @@
-# Emotional Pet 🐾
+# AuraPet 🐾
 
 A retro Tamagotchi-style web app where you care for a digital pet by checking in with your emotions and journaling.
 
 ## Features
 
-- 🎭 Emotional check-ins with 6 different moods
+- 🎭 Emotional check-ins with 8 different moods
 - 📝 Journal entries for deeper reflection
-- ❤️ Pet health and happiness stats
+- ❤️ Four pet stats: health, happiness, hunger, and sickness
 - 💾 LocalStorage persistence (your pet remembers you!)
 - 🎨 Retro-inspired design with smooth animations
 - ⏰ Pet stats decay over time (check in regularly!)
+- 🖥️ Desktop-optimized layout for comfortable viewing
 
 ## Getting Started
 
@@ -25,10 +26,10 @@ Visit `http://localhost:5173` to see your pet!
 
 ## How It Works
 
-- **Check-ins**: Quick mood selections boost your pet's health (+10) and happiness (+15)
-- **Journal entries**: Writing gives bigger boosts (health +20, happiness +25)
-- **Decay system**: Pet stats decrease by 1 point per hour if neglected
-- **LocalStorage**: All data is saved locally in your browser
+- **Check-ins**: Quick mood selections affect your pet's stats differently based on emotion type (positive, neutral, or negative)
+- **Journal entries**: Writing gives balanced boosts across all stats (happiness +25, health +20, hunger -20, sickness -15)
+- **Decay system**: Complex Tamagotchi-style mechanics where hunger increases over time, high hunger causes sickness, and high sickness affects health
+- **LocalStorage**: All data is saved locally in your browser under the 'aurapet-state' key
 
 ## Future Enhancements
 

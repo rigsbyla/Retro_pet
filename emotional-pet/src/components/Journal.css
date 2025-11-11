@@ -10,6 +10,19 @@
   margin-bottom: 20px;
 }
 
+/* Desktop spacing optimization */
+@media (min-width: 800px) {
+  .journal {
+    padding: 30px 40px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .journal {
+    padding: 35px 50px;
+  }
+}
+
 .journal textarea {
   width: 100%;
   padding: 15px;

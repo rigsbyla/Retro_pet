@@ -6,6 +6,20 @@
   box-shadow: 0 8px 16px rgba(0,0,0,0.2);
 }
 
+/* Desktop spacing optimization */
+@media (min-width: 800px) {
+  .pet {
+    padding: 50px 60px;
+    margin: 40px 0;
+  }
+}
+
+@media (min-width: 1200px) {
+  .pet {
+    padding: 60px 80px;
+  }
+}
+
 .pet-sprite {
   font-size: 4rem;
   margin-bottom: 20px;
@@ -19,6 +33,27 @@
 .pet-sad .pet-sprite {
   animation: none;
   opacity: 0.7;
+}
+
+.pet-sick .pet-sprite {
+  animation: shake 0.5s infinite;
+  opacity: 0.8;
+}
+
+.pet-unhealthy .pet-sprite {
+  animation: none;
+  opacity: 0.6;
+}
+
+.pet-hungry .pet-sprite {
+  animation: bounce 1.5s infinite;
+  opacity: 0.85;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
 }
 
 .pet-message {

@@ -1,18 +1,48 @@
 .app {
-  max-width: 600px;
+  max-width: 900px;
   margin: 0 auto;
   padding: 20px;
   text-align: center;
   font-family: 'Press Start 2P', 'Courier New', monospace;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  
   min-height: 100vh;
   color: #fff;
+}
+
+body{
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0; 
+  background-image: url('assets/1.png');
+}
+/* Desktop layout optimization for screens > 1200px */
+@media (min-width: 1200px) {
+  .app {
+    padding: 40px 60px;
+  }
+}
+
+/* Maintain responsive behavior for mobile */
+@media (max-width: 800px) {
+  .app {
+    max-width: 100%;
+    padding: 15px;
+  }
 }
 
 h1 {
   font-size: 1.5rem;
   margin-bottom: 30px;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Desktop spacing optimization */
+@media (min-width: 800px) {
+  h1 {
+    font-size: 1.8rem;
+    margin-bottom: 40px;
+  }
 }
 
 .journal-btn {

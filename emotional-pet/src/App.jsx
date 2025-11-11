@@ -3,7 +3,7 @@ import Pet from './components/Pet';
 import CheckIn from './components/CheckIn';
 import Journal from './components/Journal';
 import Stats from './components/Stats';
-import { loadPetState, savePetState, updatePetHealth } from './utils/petLogic';
+import { loadPetState, savePetState, updatePetHealth, getEmotionCategory, emotionEffects, clampStat } from './utils/petLogic';
 import './App.css';
 
 function App() {
@@ -22,20 +22,29 @@ function App() {
   }, []);
 
   const handleCheckIn = (mood) => {
-    setPetState(prev => ({
-      ...prev,
-      happiness: Math.min(100, prev.happiness + 15),
-      health: Math.min(100, prev.health + 10),
-      lastCheckIn: Date.now(),
-      mood: mood
-    }));
+    setPetState(prev => {
+      const category = getEmotionCategory(mood);
+      const effects = emotionEffects[category];
+      
+      return {
+        ...prev,
+        happiness: clampStat(prev.happiness + effects.happiness),
+        health: clampStat(prev.health + effects.health),
+        hunger: clampStat(prev.hunger + effects.hunger),
+        sickness: clampStat(prev.sickness + effects.sickness),
+        lastCheckIn: Date.now(),
+        mood: mood
+      };
+    });
   };
 
   const handleJournalEntry = (entry) => {
     setPetState(prev => ({
       ...prev,
-      happiness: Math.min(100, prev.happiness + 25),
-      health: Math.min(100, prev.health + 20),
+      happiness: clampStat(prev.happiness + 25),
+      health: clampStat(prev.health + 20),
+      hunger: clampStat(prev.hunger - 20),
+      sickness: clampStat(prev.sickness - 15),
       lastJournal: Date.now(),
       journalEntries: [...prev.journalEntries, { text: entry, date: Date.now() }]
     }));
@@ -44,7 +53,7 @@ function App() {
 
   return (
     <div className="app">
-      <h1>Emotional Pet 🌟</h1>
+      <h1>AuraPet 🌟</h1>
       <Pet petState={petState} />
       <Stats petState={petState} />
       
